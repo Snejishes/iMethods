@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iMEthods - Ingenieurmethoden Toolbox</title>
     <style>
-         :root {
+        :root {
             --primary-color: #2A75C3;
             --background-color: #FFFFFF;
             --text-color: #333333;
@@ -42,22 +42,32 @@
             padding: 2rem;
             border-radius: 10px;
             text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            min-height: 100vh;
+        }
+
+        .main-content.visible {
+            opacity: 1;
         }
 
         header {
             padding: 2rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
             background: white;
+            position: relative;
             z-index: 100;
         }
 
         .hero {
-            margin-top: 120px;
             padding: 4rem 2rem;
             text-align: center;
+            margin-top: 20px;
         }
 
         .download-section {
@@ -124,18 +134,11 @@
             margin: 2rem auto;
             padding: 2rem;
         }
-        
+
         .error-message {
             color: #dc3545;
             margin-top: 10px;
             display: none;
-        }
-
-        #passwordForm {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
         }
     </style>
 </head>
@@ -151,11 +154,58 @@
         </div>
     </div>
 
-    <!-- Rest der HTML-Struktur wie zuvor -->
+    <div class="main-content" id="mainContent">
+        <header>
+            <h1>iMEthods</h1>
+        </header>
+
+        <section class="hero">
+            <h2>Die Ingenieurmethoden Toolbox</h2>
+            <p>Ihr professioneller Begleiter für effiziente Problemlösungen</p>
+        </section>
+
+        <section class="download-section">
+            <h3>App Download</h3>
+            <p>Version 1.0.0 - Android</p>
+            <a href="#" class="download-button">Jetzt herunterladen</a>
+            <p>Installationshinweis: Nach dem Download .apk-Datei öffnen und installieren</p>
+        </section>
+
+        <div class="features">
+            <div class="feature-card">
+                <h4>✓ Professionelle Methoden</h4>
+                <p>Über 15 bewährte Ingenieurmethoden im Überblick</p>
+            </div>
+            <div class="feature-card">
+                <h4>✓ Intuitive Bedienung</h4>
+                <p>Klare Strukturierung und schneller Zugriff</p>
+            </div>
+            <div class="feature-card">
+                <h4>✓ Offline Nutzung</h4>
+                <p>Alle Inhalte immer verfügbar</p>
+            </div>
+        </div>
+
+        <div class="imprint" id="imprint">
+            <h3>Impressum</h3>
+            <p>Angaben gemäß § 5 TMG</p>
+            <p>Max Mustermann<br>
+            Musterstraße 123<br>
+            12345 Musterstadt</p>
+            <p>Kontakt:<br>
+            Telefon: 01234 567890<br>
+            E-Mail: info@imethods.de</p>
+        </div>
+
+        <footer>
+            <p>© 2024 iMEthods. Alle Rechte vorbehalten.</p>
+        </footer>
+    </div>
 
     <script>
         const correctPassword = "ime2024";
         const passwordOverlay = document.getElementById('passwordOverlay');
+        const mainContent = document.getElementById('mainContent');
         const errorMessage = document.getElementById('errorMessage');
 
         function checkPassword() {
@@ -163,7 +213,9 @@
             
             if(input === correctPassword) {
                 passwordOverlay.style.display = 'none';
+                mainContent.classList.add('visible');
                 localStorage.setItem('auth', 'true');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
                 errorMessage.style.display = 'block';
                 document.getElementById('passwordInput').value = '';
@@ -173,7 +225,6 @@
             }
         }
 
-        // Enter-Taste Abfangen
         document.getElementById('passwordInput').addEventListener('keypress', function(e) {
             if(e.key === 'Enter') {
                 checkPassword();
@@ -183,13 +234,15 @@
         window.onload = function() {
             if(localStorage.getItem('auth') === 'true') {
                 passwordOverlay.style.display = 'none';
+                mainContent.classList.add('visible');
             } else {
                 passwordOverlay.style.display = 'flex';
+                mainContent.classList.remove('visible');
+                document.getElementById('passwordInput').focus();
             }
         }
 
-        // Für Testzwecke: localStorage zurücksetzen
-        // localStorage.removeItem('auth');
+        // Zum Zurücksetzen: localStorage.removeItem('auth');
     </script>
 </body>
 </html>
